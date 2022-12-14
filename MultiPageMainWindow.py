@@ -13,6 +13,7 @@ from datetime import date
 import pgModule
 import prepareData
 import figures
+import dialogs
 
 # CLASS DEFINITIONS FOR THE APP
 # -----------------------------
@@ -44,7 +45,8 @@ class MultiPageMainWindow(QMainWindow):
         # Set current date when the app starts
         self.currentDate = date.today() 
 
-
+        # TODO: Add action here
+        # self.actionTietokanta.triggered.connect(self.openDBSettingsDialog)
 
         # Summary page (Yhteenveto)
         self.summaryRefreshBtn = self.summaryRefreshPushButton
@@ -176,6 +178,7 @@ class MultiPageMainWindow(QMainWindow):
         databaseOperation2 = pgModule.DatabaseOperation()
         databaseOperation2.getAllRowsFromTable(
             self.connectionArguments, 'public.nimivalinta')
+        self.shotById = prepareData.prepareComboBox(databaseOperation2, self.shotCB 1.0)    
 
         # Check if error has occurred
         if databaseOperation2.errorCode != 0:
@@ -189,6 +192,17 @@ class MultiPageMainWindow(QMainWindow):
         databaseOperation3 = pgModule.DatabaseOperation()
         databaseOperation3.getAllRowsFromTable(
             self.connectionArguments, 'public.elain')
+        self.shotAnimalText = prepareData.prepareData.prepareComboBox(databaseOperation3, 
+        self.shotAnimalCB, O,O)    
+            
+
+         # Read data from table elain and populate the combo box
+        databaseOperation3 = pgModule.DatabaseOperation()
+        databaseOperation3.getAllRowsFromTable(
+            self.connectionArguments, 'public.elain')
+        self.shotAnimalText = prepareData.preparaData.prepareComboBox(databaseOperation3, 
+        self.shotAnimalCB, O,O)    
+
 
         # Check if error has occurred
         if databaseOperation3.errorCode != 0:
