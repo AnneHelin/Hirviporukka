@@ -3,7 +3,6 @@
 
 # LIBRARIES AND MODULES
 # --------------------------
-import pgModule
 # from pyQt5.QtWidgets import * # Remove this line when ready
 from PyQt5.QtWidgets import QTableWidgetItem # For handling a single table cell
 
@@ -69,13 +68,5 @@ def preparaTable(resultObject, tableWidget):
         # Result set is a list of tuples even when there is only one column in the view
         cBValuesOfInterest = [] # Empty list for values of interest
         cBItems = [] # Empty list for choices in the combo box
-                               
-        for result in resultObject.resultSet:
-            cBValuesOfInterest  = result[ixToReturn] # Choose column to use as value of interest
-            resultAssString = str(result[IxToShow]) # Convert element to show in the tuple as a string
-            cBItems.append(resultAssString) # Append it to the choices list of of the combo box
-            cBValuesOfInterest.append(cBValuesOfInterest) # Append the value to the lista                      
-
-        comboBox.addItems(cBItems) # Populate the combo box
-        return cBValuesOfInterest
+                        
      
