@@ -10,8 +10,7 @@ from PyQt5 import QtWebEngineWidgets # For showing html content
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import *  # FIXME: Everything,  change to individual components
 from datetime import date
-import pgModule
-import prepareData
+import module
 import figures
 import dialogs
 
@@ -162,6 +161,7 @@ class MultiPageMainWindow(QMainWindow):
     def populateKillPage(self):
         # Set default date to current date
         self.shotDateDE.setDate(self.currentDate)
+
         # Read data from view kaatoluettelo
         databaseOperation1 = pgModule.DatabaseOperation()
         databaseOperation1.getAllRowsFromTable(
@@ -178,7 +178,7 @@ class MultiPageMainWindow(QMainWindow):
         databaseOperation2 = pgModule.DatabaseOperation()
         databaseOperation2.getAllRowsFromTable(
             self.connectionArguments, 'public.nimivalinta')
-        self.shotById = prepareData.prepareComboBox(databaseOperation2, self.shotCB 1.0)    
+        
 
         # Check if error has occurred
         if databaseOperation2.errorCode != 0:
@@ -192,50 +192,40 @@ class MultiPageMainWindow(QMainWindow):
         databaseOperation3 = pgModule.DatabaseOperation()
         databaseOperation3.getAllRowsFromTable(
             self.connectionArguments, 'public.elain')
-        self.shotAnimalText = prepareData.prepareData.prepareComboBox(databaseOperation3, 
-        self.shotAnimalCB, O,O)    
-            
-
-         # Read data from table elain and populate the combo box
-        databaseOperation3 = pgModule.DatabaseOperation()
-        databaseOperation3.getAllRowsFromTable(
-            self.connectionArguments, 'public.elain')
-        self.shotAnimalText = prepareData.preparaData.prepareComboBox(databaseOperation3, 
-        self.shotAnimalCB, O,O)    
-
 
         # Check if error has occurred
         if databaseOperation3.errorCode != 0:
-            self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui',
-                       databaseOperation3.errorMessage, databaseOperation3.detailedMessage)
+            self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui'   
+                        databaseOperation3.errorMessage, databaseOperation3.detaileMessage)
         else:
             self.shotAnimalText = prepareData.prepareComboBox(
-                databaseOperation3, self.shotAnimalCB, 0, 0)
-
+                databaseOperation3, self.shotAnimalCB, 0,0)
+                            
         # Read data from table aikuinenvasa and populate the combo box
         databaseOperation4 = pgModule.DatabaseOperation()
         databaseOperation4.getAllRowsFromTable(
-            self.connectionArguments, 'public.aikuinenvasa')
+           self.connectionArguments, 'public.aikuinenvasa')
         
         # Check if error has occurred
         if databaseOperation4.errorCode != 0:
             self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui',
-                       databaseOperation4.errorMessage, databaseOperation4.detailedMessage)
+                        databaseOperation4.errorMessage. databaseOperation4.detaileMessage)
+                        
         else:
             self.shotAgeGroupText = prepareData.prepareComboBox(
-            databaseOperation4, self.shotAgeGroupCB, 0, 0)
-        
-        # Read data from table sukupuoli and populate the combo box
-        databaseOperation5 = pgModule.DatabaseOperation()
-        databaseOperation5.getAllRowsFromTable(
-            self.connectionArguments, 'public.sukupuoli')
+            databaseOperation4, self.shotAgeGroupCB, 0,0)    
 
-        if databaseOperation5.errorCode != 0:
+        # Read data from table sukupuoli and populate the combo box
+        databeseOperation5 = pgModule.DatabaseOperation()
+        databeseOperation5.getAllRowsFromTable(
+            self.connectionArguments, 'public.sumupuoli')
+
+        if databeseOperation5.errorCode != 0:
             self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui',
-                       databaseOperation5.errorMessage, databaseOperation5.detailedMessage)
+                        databeseOperation5.erroeMessage, databeseOperation5.detaileMessage)
         else:
             self.shotGenderText = prepareData.prepareComboBox(
-            databaseOperation5, self.shotGenderCB, 0, 0)
+                databeseOperation5, self.shotGenderCB, 0,0)                              
 
         # Read data from table kasittely
         databaseOperation6 = pgModule.DatabaseOperation()
@@ -258,9 +248,14 @@ class MultiPageMainWindow(QMainWindow):
         self.populateKillPage()
 
     def saveShot(self):
+        shotByChosenItemIx = self.shotByCB.currentindex()
+        shotById = self.shotById[shotByChosenItemIx]
+        shootingDay = self.shotDateDE.date()
+        print('ampuja id', shotById, 'ampumispäivä' shootLingday) 
         errorOccurred = False
+        
         try:
-            shotByChosenItemIx = self.shotByCB.currentIndex()  # Row index of the selected row
+           shotByChosenItemIx = self.shotByCB.currentIndex()  # Row index of the selected row
             # Id value of the selected row
             shotById = self.shotByIdList[shotByChosenItemIx]
             shootingDay = self.shotDateDE.date().toPyDate()  # Python date is in ISO format
@@ -287,7 +282,7 @@ class MultiPageMainWindow(QMainWindow):
         # Check for conversion errors    
         except Exception as error:
             errorOccurred = True
-            self.alert('Virheellinen syöte', 'Tarkista antamasi tiedot', 'Tyyppivirhe', str(error))
+            self.alert('Virheellinen syöte', 'Tarkista antamasi tiedot', 'Tyyppivirhe', str())
         
         finally:
             # Check if converisions from text are successfull
