@@ -10,7 +10,8 @@ from PyQt5 import QtWebEngineWidgets # For showing html content
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import *  # FIXME: Everything,  change to individual components
 from datetime import date
-import module
+import pgModule
+import prepareData
 import figures
 import dialogs
 
@@ -218,7 +219,7 @@ class MultiPageMainWindow(QMainWindow):
         # Read data from table sukupuoli and populate the combo box
         databeseOperation5 = pgModule.DatabaseOperation()
         databeseOperation5.getAllRowsFromTable(
-            self.connectionArguments, 'public.sumupuoli')
+            self.connectionArguments, 'public.sukupuoli')
 
         if databeseOperation5.errorCode != 0:
             self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui',
