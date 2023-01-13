@@ -70,7 +70,7 @@ class MultiPageMainWindow(QMainWindow):
         self.shotUsageCB = self.usageComboBox
         self.shotAddInfoTE = self.additionalInfoTextEdit
         self.shotSavePushBtn = self.saveShotPushButton
-        self.shotSavePushBtn.clicked.connect(self.saveShot)
+        self.shotSavePushBtn.clicked.connect(self.saveShot)  # Sinal
         self.shotKillsTW = self.killsKillsTableWidget
 
         
@@ -149,6 +149,14 @@ class MultiPageMainWindow(QMainWindow):
         databaseOperation2.getAllRowsFromTable(
             self.connectionArguments, 'public.jakoryhma_yhteenveto')
 
+        # figure = figures.createSankeyChart()
+        # figure = figures.testChart()
+        htmlFile = 'meatstreamns.html'
+        urlString = f'file:///{htmlFile}'
+        # figures.createOfflineFile(figure, htmlFile) # Write the chart to a html file
+        url = QUrl(urlString) # Create a relative url to the file
+        self.sankeyWebV.load(url) # Load it into the web view element
+
         # Check if error has occurred
         if databaseOperation2.errorCode !=0:
             self.alert('Vaaka virhe', 'Tietokantaoperaatio epäonnistui',
@@ -162,7 +170,6 @@ class MultiPageMainWindow(QMainWindow):
     def populateKillPage(self):
         # Set default date to current date
         self.shotDateDE.setDate(self.currentDate)
-
         # Read data from view kaatoluettelo
         databaseOperation1 = pgModule.DatabaseOperation()
         databaseOperation1.getAllRowsFromTable(
@@ -196,8 +203,8 @@ class MultiPageMainWindow(QMainWindow):
 
         # Check if error has occurred
         if databaseOperation3.errorCode != 0:
-            self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui'   
-                        databaseOperation3.errorMessage, databaseOperation3.detaileMessage)
+            self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui',
+                        databaseOperation3.errorMessage, databaseOperation3.detailedmessage)
         else:
             self.shotAnimalText = prepareData.prepareComboBox(
                 databaseOperation3, self.shotAnimalCB, 0,0)
@@ -226,7 +233,7 @@ class MultiPageMainWindow(QMainWindow):
                         databeseOperation5.erroeMessage, databeseOperation5.detaileMessage)
         else:
             self.shotGenderText = prepareData.prepareComboBox(
-                databeseOperation5, self.shotGenderCB, 0,0)                              
+            databeseOperation5, self.shotGenderCB, 0,0)                              
 
         # Read data from table kasittely
         databaseOperation6 = pgModule.DatabaseOperation()
@@ -245,18 +252,21 @@ class MultiPageMainWindow(QMainWindow):
     # TODO: Make populate license page method
 
     def populateAllPages(self):
-        self.populateSummaryPage()
-        self.populateKillPage()
+
+        testDBConnection = pgModule.databaseoperation()
+        connectionArgs = testDBConnection.readDataBaseSettingsFromFile('settings.dat')
+        testDBConnection.testConnection(connectionArgs)
+        if testDBConnection.errorcode == 0:
+            self.populateSummaryPage()
+            self.populateKillPage()
+        else:
+            self.alert('Tarkista tietokanta-asetukset', 'settings.dat-tiedostosta', 'no futher information', 'no futher information')
+      
 
     def saveShot(self):
-        shotByChosenItemIx = self.shotByCB.currentindex()
-        shotById = self.shotById[shotByChosenItemIx]
-        shootingDay = self.shotDateDE.date()
-        print('ampuja id', shotById, 'ampumispäivä' shootLingday) 
         errorOccurred = False
-        
         try:
-           shotByChosenItemIx = self.shotByCB.currentIndex()  # Row index of the selected row
+            shotByChosenItemIx = self.shotByCB.currentIndex()  # Row index of the selected row
             # Id value of the selected row
             shotById = self.shotByIdList[shotByChosenItemIx]
             shootingDay = self.shotDateDE.date().toPyDate()  # Python date is in ISO format
