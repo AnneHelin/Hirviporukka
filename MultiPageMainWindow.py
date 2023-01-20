@@ -5,15 +5,6 @@
 # ---------------------
 
 import sys  # Needed for starting the application
-from PyQt5.QtWidgets import *  # All widgets
-from PyQt5 import QtWebEngineWidgets # For showing html content
-from PyQt5.uic import loadUi
-from PyQt5.QtCore import *  # FIXME: Everything,  change to individual components
-from datetime import date
-import pgModule
-import prepareData
-import figures
-import dialogs
 
 # CLASS DEFINITIONS FOR THE APP
 # -----------------------------
