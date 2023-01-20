@@ -12,8 +12,8 @@ from PyQt5.QtCore import *  # FIXME: Everything,  change to individual component
 from datetime import date
 import pgModule
 import prepareData
-import figures
-import dialogs
+import figure
+import dialog
 
 
 # CLASS DEFINITIONS FOR THE APP
@@ -166,7 +166,8 @@ class MultiPageMainWindow(QMainWindow):
             prepareData.preparaTable(
                 databaseOperation2, self.summaryGroupSummaryTW)
 
-        # TODO: MessageBox if an error occure        
+       # Create MessageBox if an error occure
+    def              
 
     def populateKillPage(self):
         # Set default date to current date
