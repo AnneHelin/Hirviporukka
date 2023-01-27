@@ -167,7 +167,7 @@ class MultiPageMainWindow(QMainWindow):
                 databaseOperation2, self.summaryGroupSummaryTW)
 
        # Create MessageBox if an error occure
-    def              
+               
 
     def populateKillPage(self):
         # Set default date to current date
